@@ -1,7 +1,7 @@
 // src/components/ProductList.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import socket from "../socket";
+import socket from "../config/sockets";
 import ProductItem from "./ProductItem";
 
 const ProductList = () => {
