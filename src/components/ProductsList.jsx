@@ -29,7 +29,7 @@ const ProductList = () => {
     }, []);
 
     const handleUpdateStock = (productId) => {
-        socket.emit("update-stock", productId);
+        socket.emit("update-stock", { productId });
     };
 
     return (
