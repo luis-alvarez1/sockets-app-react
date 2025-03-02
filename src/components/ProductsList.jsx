@@ -8,14 +8,12 @@ const ProductList = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        axios
-            .get("http://localhost:8000/api/products")
-            .then((response) => {
-                setProducts(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching products:", error);
-            });
+        const getProducts = async () => {
+            const resp = await axios.get("http://localhost:8000/api/products");
+            console.log(resp);
+            setProducts(resp.data.data);
+        };
+        getProducts();
 
         socket.on("stock-updated", (updatedProduct) => {
             setProducts((prevProducts) =>
@@ -28,7 +26,7 @@ const ProductList = () => {
         return () => {
             socket.off("stock-updated");
         };
-    }, []);
+    }, [products]);
 
     const handleUpdateStock = (productId) => {
         socket.emit("update-stock", productId);
@@ -37,7 +35,7 @@ const ProductList = () => {
     return (
         <div>
             <h2>Lista de Productos</h2>
-            {products.map((product) => (
+            {products?.map((product) => (
                 <ProductItem
                     key={product.id}
                     product={product}
